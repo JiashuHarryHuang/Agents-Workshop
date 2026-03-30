@@ -1,0 +1,68 @@
+# =============================================================================
+# Literature Review MCP — Configuration File
+# =============================================================================
+# This is the main configuration file you will modify throughout the assignment.
+# Changes here affect the RAG pipeline and agent behavior without touching code.
+#
+# After changing any value, re-run the ingestion script if you changed a RAG
+# parameter, then restart the MCP server to pick up the new settings.
+# =============================================================================
+
+rag:
+  # --- Chunking ---
+  # How many characters per chunk. Larger = more context per chunk, but
+  # retrieved chunks may contain irrelevant text. Smaller = more precise,
+  # but may miss context that spans chunk boundaries.
+  chunk_size: 512
+
+  # How many characters of overlap between consecutive chunks.
+  # Overlap helps avoid cutting sentences/ideas at boundaries.
+  # Must be less than chunk_size.
+  chunk_overlap: 64
+
+  # --- Retrieval ---
+  # How many chunks to retrieve per query.
+  top_k: 5
+
+  # Minimum cosine similarity score (0.0–1.0) to include a chunk.
+  # ChromaDB returns distances (lower = more similar), converted internally.
+  # Raise this to get only highly relevant chunks; lower it to get more results.
+  similarity_threshold: 0.3
+
+  # --- Embedding model ---
+  # Sentence-Transformers model name. Options to try:
+  #   "all-MiniLM-L6-v2"    — fast, small (default)
+  #   "all-mpnet-base-v2"   — slower, higher quality
+  #   "multi-qa-MiniLM-L6-cos-v1" — tuned for Q&A retrieval
+  # NOTE: Changing the embedding model requires re-running download_papers.py
+  # and re-ingesting all PDFs (the vector DB must be rebuilt).
+  embedding_model: "all-MiniLM-L6-v2"
+
+  # Path to the persistent ChromaDB directory (relative to project root)
+  db_path: "chroma_db"
+
+  # Name of the ChromaDB collection
+  collection_name: "literature"
+
+semantic_scholar:
+  # Base URL for the Semantic Scholar Graph API (free tier, no key required)
+  base_url: "https://api.semanticscholar.org/graph/v1"
+
+  # Default number of papers to return from search
+  default_limit: 10
+
+  # Seconds to wait between API requests to respect rate limits
+  # Free tier only gives ~1 request/second, so don't set below 1.0.
+  rate_limit_delay: 1.1
+
+agent:
+  # Which prompt template to use (key from prompts/templates.py)
+  # Options: "default", "concise", "structured", "critical"
+  system_prompt: "default"
+
+  # Maximum number of Semantic Scholar search results the agent can request
+  max_search_results: 10
+
+  # If true, the agent includes full abstracts in search results.
+  # If false, only titles/authors/year are returned (faster, less context).
+  include_abstracts: true

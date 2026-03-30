@@ -1,0 +1,20 @@
+# Core MCP framework
+mcp>=1.0.0
+
+# PDF processing
+pymupdf>=1.24.0
+
+# Embeddings
+sentence-transformers>=3.0.0
+
+# Vector database
+chromadb>=0.5.0
+
+# HTTP requests (Semantic Scholar API)
+httpx>=0.27.0
+
+# Config parsing
+pyyaml>=6.0.0
+
+# Async support
+anyio>=4.0.0

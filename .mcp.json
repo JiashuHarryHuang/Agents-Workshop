@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "lit-review": {
+      "command": "python",
+      "args": [
+        "src/mcp_server.py"
+      ],
+      "cwd": "${workspaceFolder}/lit-review-agent"
+    }
+  }
+}
